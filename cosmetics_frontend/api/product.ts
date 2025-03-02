@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://192.168.1.42:3000';
 
 
-//hi
+//hiiiii
 export const fetchProducts = async () => {
     try {
         const response = await axios.get(`${API_URL}/products`);
