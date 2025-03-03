@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Slot } from "expo-router";
 import Splash from "../app/splash"; // Path to your SplashScreen component
-import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import { Provider as PaperProvider } from "react-native-paper";
+import { Provider } from "react-redux";
 
 const _layout = () => {
     const [isSplashVisible, setIsSplashVisible] = useState(true);
@@ -25,8 +26,11 @@ const _layout = () => {
     // After the splash screen, render child components using <Slot />
     return (
         <Provider store={store}>
-            <Slot />
+            <PaperProvider >
+                <Slot />
+            </PaperProvider>
         </Provider>
+
     );
 };
 

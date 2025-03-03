@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
-import { fetchProducts, deleteProduct } from '../../api/product';
+import React, { useEffect, useState } from "react";
+import { FlatList, TouchableOpacity } from "react-native";
+import { fetchProducts } from "../../api/product";
+import { Card, Paragraph } from "react-native-paper";
+import ScreensWrapper from "@/components/ui/screensWrapper";
+import { useRouter } from "expo-router";
 
 interface Product {
     _id: string;
@@ -12,8 +15,8 @@ interface Product {
 
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
-
     const [loading, setLoading] = useState(true);
+    const router = useRouter(); // Điều hướng
 
     useEffect(() => {
         loadProducts();
@@ -26,44 +29,29 @@ const ProductList = () => {
         setLoading(false);
     };
 
-    const handleDelete = async (id: string) => {
-        Alert.alert('Xác nhận', 'Bạn có chắc muốn xóa sản phẩm này?', [
-            { text: 'Hủy', style: 'cancel' },
-            {
-                text: 'Xóa',
-                onPress: async () => {
-                    const success = await deleteProduct(id);
-                    if (success) {
-                        setProducts(products.filter((item) => item._id !== id));
-                    } else {
-                        Alert.alert('Lỗi', 'Không thể xóa sản phẩm');
-                    }
-                },
-            },
-        ]);
-    };
-
-    if (loading) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
-    }
-
     return (
-        <FlatList
-            data={products}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item }) => (
-                <View style={{ padding: 10, borderBottomWidth: 1 }}>
-                    <Image source={{ uri: item.imageUrl }} style={{ width: 100, height: 100, borderRadius: 10 }} />
-                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
-                    <Text>{item.description}</Text>
-                    <Text style={{ color: 'green' }}>{item.price} VND</Text>
+        <ScreensWrapper bg="#f0f0f0">
+            <FlatList
+                data={products}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => router.push({ pathname: "/product/[id]", params: { id: item._id } })}>
+                        <Card style={{ margin: 10 }}>
+                            <Card.Cover source={{ uri: item.imageUrl }} />
+                            <Card.Title title={item.name} />
+                            <Card.Title title={item._id} />
 
-                    <TouchableOpacity onPress={() => handleDelete(item._id)}>
-                        <Text style={{ color: 'red' }}>Xóa</Text>
+                            <Card.Content>
+                                <Paragraph>{item.description}</Paragraph>
+                                <Paragraph style={{ color: "green", fontWeight: "bold" }}>
+                                    {item.price} VND
+                                </Paragraph>
+                            </Card.Content>
+                        </Card>
                     </TouchableOpacity>
-                </View>
-            )}
-        />
+                )}
+            />
+        </ScreensWrapper>
     );
 };
 
