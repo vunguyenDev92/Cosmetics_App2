@@ -7,7 +7,7 @@ const Index = () => {
     useEffect(() => {
         // Delay the redirect to ensure Slot has rendered
         const timer = setTimeout(() => {
-            router.replace('/screens/ProductList');
+            router.replace('/screens/HomeScreens');
         }, 100);  // Slight delay to prevent navigation issues
 
         return () => clearTimeout(timer);
