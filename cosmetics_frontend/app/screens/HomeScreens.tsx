@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, FlatList, Image } from "react-native";
+import { View, FlatList, Image, TouchableOpacity } from "react-native";
 import { Appbar, Text, Searchbar, Avatar, IconButton } from "react-native-paper";
 import ProductList from "./ProductList";
+import { router } from "expo-router";
 
 // Fake data cho danh mục sản phẩm
 const categories = [
@@ -10,6 +11,12 @@ const categories = [
     { id: "3", name: "Shoes", image: "https://via.placeholder.com/50" },
     { id: "4", name: "Bag", image: "https://via.placeholder.com/50" },
     { id: "5", name: "Accessories", image: "https://via.placeholder.com/50" },
+    { id: "6", name: "Accessories", image: "https://via.placeholder.com/50" },
+    { id: "7", name: "Accessories", image: "https://via.placeholder.com/50" },
+    { id: "8", name: "Accessories", image: "https://via.placeholder.com/50" },
+
+
+
 ];
 
 const HomeScreen = () => {
@@ -30,7 +37,7 @@ const HomeScreen = () => {
 
             {/* Danh mục sản phẩm */}
             <View style={{ paddingHorizontal: 10, marginBottom: 10 }}>
-                <Text variant="titleMedium">Categories</Text>
+                <Text variant="titleMedium" style={{ marginBottom: 10 }}>Categories</Text>
                 <FlatList
                     data={categories}
                     horizontal
@@ -56,7 +63,9 @@ const HomeScreen = () => {
         <View style={{ flex: 1, backgroundColor: "#F8F8F8" }}>
             {/* App Bar */}
             <Appbar.Header>
-                <Avatar.Image size={40} source={{ uri: "https://via.placeholder.com/50" }} />
+                <TouchableOpacity onPress={() => router.push("/screens/ProfileScreen")}>
+                    <Avatar.Image size={40} source={{ uri: "https://via.placeholder.com/50" }} />
+                </TouchableOpacity>
                 <Appbar.Content title="Trang chủ" />
                 <IconButton icon="cart-outline" size={24} />
             </Appbar.Header>
